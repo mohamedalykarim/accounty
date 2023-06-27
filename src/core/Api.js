@@ -1,9 +1,9 @@
 import axios from "axios"
 
-const BASE_URL = "http://localhost:3001"
+const BASE_URL = "http://localhost:3005"
 
-export const login = (username, password)=>{
-    return new Promise((resolve, reject)=>{
+export const login = (username, password) => {
+    return new Promise((resolve, reject) => {
         try {
             axios.post(
                 `${BASE_URL}/api/users/login`,
@@ -12,25 +12,27 @@ export const login = (username, password)=>{
                     password: password
                 },
                 {
-                    headers : {
-                        "Content-Type" : "application/json",
-                        "Accept" : "application/json, text/plain, */*"
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json, text/plain, */*"
                     }
                 }
-            ).then((response)=>{
+            ).then((response) => {
                 console.log(response);
-                resolve(response)
+                resolve(response.data)
             })
-            
+
         } catch (error) {
+            console.log(error);
+
             reject(error)
         }
 
     })
 }
 
-export const addNewUser = (username, name, password, isAdmin)=>{
-    return new Promise((resolve, reject)=>{
+export const addNewUser = (username, name, password, isAdmin) => {
+    return new Promise((resolve, reject) => {
         try {
             axios.post(
                 `${BASE_URL}/api/users/`,
@@ -38,18 +40,18 @@ export const addNewUser = (username, name, password, isAdmin)=>{
                     username: username,
                     password: password,
                     name: name,
-                    is_admin : isAdmin
+                    is_admin: isAdmin
                 },
                 {
-                    headers : {
-                        "Content-Type" : "application/json",
-                        "Accept" : "application/json, text/plain, */*"
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json, text/plain, */*"
                     }
                 }
-            ).then((response)=>{
+            ).then((response) => {
                 resolve(response)
             })
-            
+
         } catch (error) {
             reject(error)
         }
@@ -57,17 +59,17 @@ export const addNewUser = (username, name, password, isAdmin)=>{
     })
 }
 
-export const getCapitalTransactions = async(page, count)=>{
-    return new Promise((resolve, reject)=>{
+export const getCapitalTransactions = async (page, count) => {
+    return new Promise((resolve, reject) => {
         try {
             axios.post(
                 BASE_URL + "/",
                 {},
                 {}
-            ).then(()=>{
-                
+            ).then(() => {
+
             })
-            
+
         } catch (error) {
             reject(error)
         }

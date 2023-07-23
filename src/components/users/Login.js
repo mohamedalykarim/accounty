@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 
 import { Container, TextField, Button, Typography } from "@mui/material";
@@ -13,10 +13,11 @@ import ArrowCircleRightIcon from '@mui/icons-material/ArrowCircleRight';
 import { login } from "../../core/Api";
 
 import useAuth from '../../hook/useAuth'
+import useRefershToken from "../../hook/useRefreshToken";
 
 
 function Login() {
-    const { setAuth } = useAuth()
+    const { auth, setAuth } = useAuth()
 
     const navigate = useNavigate()
     const location = useLocation()
@@ -30,7 +31,15 @@ function Login() {
     const [usernameErrorString, setUsernameErrorString] = useState("")
     const [passwordErrorString, setPasswordErrorString] = useState("")
 
+    const refresh = useRefershToken()
 
+    useEffect(() => {
+        if (auth !== null) {
+            navigate('/', { replace: true })
+        }
+
+
+    }, [auth])
 
 
     const handleLoginSubmit = async () => {
@@ -63,7 +72,7 @@ function Login() {
                     setPasswordErrorString("")
                 }
 
-                if (data.message === "Password isn't correct") {
+                if (data.message === "Wrong password") {
                     setUsernameError(false)
                     setUsernameErrorString("")
                     setPasswordError(true)
@@ -95,6 +104,7 @@ function Login() {
         <br /><br /><br />
         <br /><br /><br />
 
+        <Button onClick={() => refresh()}>refresh</Button>
 
 
         <Grid2 container spacing={3}>

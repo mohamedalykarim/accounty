@@ -1,5 +1,7 @@
 import axios from "axios"
 
+
+
 const BASE_URL = "http://localhost:3005"
 
 export const login = (username, password) => {
@@ -31,10 +33,29 @@ export const login = (username, password) => {
     })
 }
 
+export const logout = () => {
+    return new Promise((resolve, reject) => {
+        axios.get(
+            `${BASE_URL}/api/users/logout`,
+            {
+                withCredentials: true
+            },
+            {
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json, text/plain, */*"
+                }
+            }
+
+        )
+    })
+}
+
 export const addNewUser = (username, name, password, isAdmin) => {
     return new Promise((resolve, reject) => {
         try {
-            axios.post(
+            axios.get(
                 `${BASE_URL}/api/users/`,
                 {
                     username: username,
@@ -59,19 +80,3 @@ export const addNewUser = (username, name, password, isAdmin) => {
     })
 }
 
-export const getCapitalTransactions = async (page, count) => {
-    return new Promise((resolve, reject) => {
-        try {
-            axios.post(
-                BASE_URL + "/",
-                {},
-                {}
-            ).then(() => {
-
-            })
-
-        } catch (error) {
-            reject(error)
-        }
-    })
-}

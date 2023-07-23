@@ -7,6 +7,7 @@ const useAxiosPrivate = () => {
     const refresh = useRefershToken()
     const { auth } = useAuth()
 
+
     useEffect(() => {
         const requestIntercept = axiosPrivate.interceptors.request.use(
             config => {
@@ -17,14 +18,18 @@ const useAxiosPrivate = () => {
                 return config
             }, (error) => Promise.reject(error)
         )
+
         const responseIntercept = axiosPrivate.interceptors.response.use(
             response => response,
             async (error) => {
+                console.log(error);
                 const prevRequest = error?.config
+
                 if (error?.response?.status === 403 && !prevRequest?.sent) {
                     prevRequest.sent = true
-                    const newAccessToken = await refresh()
-                    prevRequest.headers['Authorization'] = `Bearer ${newAccessToken}`
+                    const newAccessTokenData = await refresh()
+                    prevRequest.headers['Authorization'] = `Bearer ${newAccessTokenData.data.token}`
+
 
                     return axiosPrivate(prevRequest)
                 }
